@@ -97,6 +97,12 @@ addLayer("r", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+	infoboxes: {
+		lore: {
+			title: "red:",
+			body() {return "Red points boost their own upgrades."},
+		},
+	},
     layerShown(){return true}
 })
 
@@ -125,6 +131,12 @@ addLayer("g", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+	infoboxes: {
+		lore: {
+			title: "green:",
+			body() {return "Green points boost other effects."},
+		},
+	},
     layerShown(){return true}
 })
 
@@ -153,5 +165,11 @@ addLayer("b", {
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+	infoboxes: {
+		lore: {
+			title: "red:",
+			body() {return "Red points boost their upgrades."},
+		},
+	},
     layerShown(){return true}
 })
