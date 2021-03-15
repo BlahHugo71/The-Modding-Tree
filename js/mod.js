@@ -12,12 +12,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Somehow playable",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
+	<h3>v0.1: Somehow playable</h3><br>
+		- Added the first row.<br>
+		- Fixed hotkeys.<br>
+		- Added lore.<br>
+		- Added effects.<br>
+	<h3>v0.0: Literally nothing</h3><br>
 		- Added things.<br>
 		- Added stuff.`
 
@@ -95,14 +100,16 @@ addLayer("r", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "r", description: "R: Reset for red points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	infoboxes: {
 		lore: {
 			title: "red:",
-			body() {return "Red points boost their own upgrades."},
+			body() {return "Red points boost their own gain."},
 		},
 	},
+	effect(){redSelfMultiplier=mul(pow(r.points, 0.5),effectMultiplier)},
+	effectDescription(){return ", multiplying your red point gain by " + toString(pow(r.points, 0.5))},
     layerShown(){return true}
 })
 
@@ -129,7 +136,7 @@ addLayer("g", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "g", description: "G: Reset for green points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	infoboxes: {
 		lore: {
@@ -137,6 +144,8 @@ addLayer("g", {
 			body() {return "Green points boost other effects."},
 		},
 	},
+	effect(){effectMultiplier=pow(g.points, 0.5)},
+	effectDescription(){return ", multiplying other effects by " + toString(pow(r.points, 0.5))},
     layerShown(){return true}
 })
 
@@ -163,13 +172,15 @@ addLayer("b", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "b", description: "B: Reset for blue points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	infoboxes: {
 		lore: {
-			title: "red:",
-			body() {return "Red points boost their upgrades."},
+			title: "blue:",
+			body() {return "Blue points boost color gain."},
 		},
 	},
+	effect(){redSelfMultiplier=mul(pow(r.points, 0.5),effectMultiplier)},
+	effectDescription(){return ", multiplying your color gain by " + toString(pow(r.points, 0.5))},
     layerShown(){return true}
 })
