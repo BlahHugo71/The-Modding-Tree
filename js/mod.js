@@ -108,7 +108,7 @@ addLayer("r", {
 			body() {return "Red points boost their own gain."},
 		},
 	},
-	effect(){redSelfMultiplier=mul(pow(r.points, 0.5),effectMultiplier)},
+	effect(){redSelfMultiplier=mul(pow(r.points, 0.5))(effectMultiplier)},
 	effectDescription(){return ", multiplying your red point gain by " + toString(pow(r.points, 0.5))},
     layerShown(){return true}
 })
@@ -180,7 +180,7 @@ addLayer("b", {
 			body() {return "Blue points boost color gain."},
 		},
 	},
-	effect(){redSelfMultiplier=mul(pow(r.points, 0.5),effectMultiplier)},
+	effect(){redSelfMultiplier=mul(pow(r.points, 0.5))(effectMultiplier)},
 	effectDescription(){return ", multiplying your color gain by " + toString(pow(r.points, 0.5))},
     layerShown(){return true}
 })
