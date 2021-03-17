@@ -1,6 +1,6 @@
 let modInfo = {
 	name: "The Colorful Tree",
-	id: "8uifjansudgyeiw",
+	id: "8uifjansudgyeikauoigru89oatiu89w",
 	author: "BlahHugo71",
 	pointsName: "colors",
 	discordName: "",
@@ -21,7 +21,6 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added the first row.<br>
 		- Fixed hotkeys.<br>
 		- Added lore.<br>
-		- Added effects.<br>
 	<h3>v0.0: Literally nothing</h3><br>
 		- Added things.<br>
 		- Added stuff.`
@@ -104,12 +103,10 @@ addLayer("r", {
     ],
 	infoboxes: {
 		lore: {
-			title: "red:",
+			title: "red",
 			body() {return "Red points boost their own gain."},
 		},
 	},
-	effect(){redSelfMultiplier=mul(pow(r.points)(0.5))(effectMultiplier)},
-	effectDescription(){return ", multiplying your red point gain by " + toString(pow(r.points)(0.5))},
     layerShown(){return true}
 })
 
@@ -140,12 +137,10 @@ addLayer("g", {
     ],
 	infoboxes: {
 		lore: {
-			title: "green:",
+			title: "green",
 			body() {return "Green points boost other effects."},
 		},
 	},
-	effect(){effectMultiplier=pow(g.points)(0.5)},
-	effectDescription(){return ", multiplying other effects by " + toString(pow(r.points)(0.5))},
     layerShown(){return true}
 })
 
@@ -176,11 +171,9 @@ addLayer("b", {
     ],
 	infoboxes: {
 		lore: {
-			title: "blue:",
+			title: "blue",
 			body() {return "Blue points boost color gain."},
 		},
 	},
-	effect(){colorMultiplier=mul(pow(r.points)(0.5))(effectMultiplier)},
-	effectDescription(){return ", multiplying your color gain by " + toString(pow(r.points)(0.5))},
     layerShown(){return true}
 })
