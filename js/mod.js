@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The Colorful Tree",
+	name: "The Nanobot Tree",
 	id: "8uifjansudgyeikauoigru89oatiu89w",
 	author: "BlahHugo71",
-	pointsName: "colors",
+	pointsName: "nanobots",
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
@@ -55,7 +55,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.points.gte(new Decimal("e1e6"))
 }
 
 
@@ -95,7 +95,41 @@ addLayer("m", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "m", description: "R: Disassemble nanobots for matter", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "r", description: "R: Disassemble nanobots for matter", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    upgrades: {
+        rows: 2,
+        cols: 3,
+        11: {
+            title: "Construction",
+            description: "Construct 1 nanobot every second.",
+            cost: new Decimal(1)
+        },
+        12: {
+            title: "Self-replication",
+            description: "Nanobots self-replicate.",
+            cost: new Decimal(1)
+        },
+        13: {
+            title: "Optimization",
+            description: "The more matter you have, the more nanobots you construct.",
+            cost: new Decimal(5)
+        },
+        21: {
+            title: "Size",
+            description: "Nanobots are bigger, making more matter.",
+            cost: new Decimal(20)
+        },
+        22: {
+            title: "Hardware",
+            description: "The more changes made to the nanobots' hardware, the more nanobots are constructed.",
+            cost: new Decimal(75)
+        },
+        23: {
+            title: "Expansion",
+            description: "Nanobots get bigger constantly. As a result, matter gain is multiplied.",
+            cost: new Decimal(5000)
+        },
+    },
     layerShown(){return true}
 })
