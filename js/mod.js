@@ -17,10 +17,12 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+    <h3>v0.1.1: Content stuffs</h3><br>
+        - Added basic upgrades.<br>
+        - Already regret doing this<br>
 	<h3>v0.1: Somehow playable</h3><br>
 		- Added the first row.<br>
 		- Fixed hotkeys.<br>
-		- Added lore.<br>
 	<h3>v0.0: Literally nothing</h3><br>
 		- Added things.<br>
 		- Added stuff.`
@@ -42,10 +44,22 @@ function canGenPoints(){
 
 // Calculate points/sec!
 function getPointGen() {
-	if(!canGenPoints())
+	if(!canGenPoints()) {
 		return new Decimal(0)
-
-	let gain = new Decimal(1)
+    }
+	var gain = new Decimal(0)
+    if (hasUpgrade("r", 11)) {
+        gain = gain.add(1)
+    }
+    if (hasUpgrade("g", 11)) {
+        gain = gain.add(1)
+    }
+    if (hasUpgrade("b", 11)) {
+        gain = gain.add(1)
+    }
+    if (hasUpgrade("b", 12)) {
+        gain = gain.mul((player.b.points.pow(0.5)).add(1))
+    }
 	return gain
 }
 
@@ -92,6 +106,12 @@ addLayer("r", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("r", 12)) {
+            mult = mult.mul((player.r.points.pow(0.5)).add(1))
+        }
+        if (hasUpgrade("g", 12)) {
+            mult = mult.mul((player.g.points.pow(0.3)).add(1))
+        }
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -104,9 +124,23 @@ addLayer("r", {
 	infoboxes: {
 		lore: {
 			title: "red",
-			body() {return "Red points boost their own gain."},
+			body() { return "Red points excel at boosting their own gain." },
 		},
 	},
+    upgrades: {
+        rows: 1,
+        cols: 2,
+        11: {
+            title: "Colored",
+            description: "Adds 1 to base color production.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Red Effect",
+            description: "Red points boost red point production",
+            cost: new Decimal(3),
+        },
+    },
     layerShown(){return true}
 })
 
@@ -126,6 +160,9 @@ addLayer("g", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("g", 12)) {
+            mult = mult.mul((player.g.points.pow(0.3)).add(1))
+        }
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -138,9 +175,23 @@ addLayer("g", {
 	infoboxes: {
 		lore: {
 			title: "green",
-			body() {return "Green points boost other effects."},
+			body() {return "Green points can boost other effects greatly."},
 		},
 	},
+    upgrades: {
+        rows: 1,
+        cols: 2,
+        11: {
+            title: "Colored",
+            description: "Adds 1 to base color production.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Green Effect",
+            description: "Green points boost gain of all other points.",
+            cost: new Decimal(3),
+        },
+    },
     layerShown(){return true}
 })
 
@@ -160,6 +211,9 @@ addLayer("b", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade("g", 12)) {
+            mult = mult.mul((player.g.points.pow(0.3)).add(1))
+        }
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -172,8 +226,22 @@ addLayer("b", {
 	infoboxes: {
 		lore: {
 			title: "blue",
-			body() {return "Blue points boost color gain."},
+			body() {return "Blue points heavily boost color gain."},
 		},
 	},
+    upgrades: {
+        rows: 1,
+        cols: 2,
+        11: {
+            title: "Colored",
+            description: "Adds 1 to base color production.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Blue Effect",
+            description: "Blue points boost color production",
+            cost: new Decimal(3),
+        },
+    },
     layerShown(){return true}
 })
