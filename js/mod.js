@@ -48,18 +48,12 @@ function getPointGen() {
 		return new Decimal(0)
     }
 	var gain = new Decimal(0)
-    if (hasUpgrade("r", 11)) {
-        gain = gain.add(1)
-    }
-    if (hasUpgrade("g", 11)) {
-        gain = gain.add(1)
-    }
-    if (hasUpgrade("b", 11)) {
-        gain = gain.add(1)
-    }
-    if (hasUpgrade("b", 12)) {
-        gain = gain.mul((player.b.points.pow(0.5)).add(1))
-    }
+    if (hasUpgrade("r", 11)) {gain = gain.add(1)}
+    if (hasUpgrade("g", 11)) {gain = gain.add(1)}
+    if (hasUpgrade("b", 11)) {gain = gain.add(1)}
+    if (hasUpgrade("b", 12)) {gain = gain.mul(upgradeEffect("b", 12))}
+    if (hasUpgrade("r", 13)) {gain = gain.mul(upgradeEffect("r", 13))}
+    if (hasUpgrade("g", 13)) {gain = gain.mul(upgradeEffect("g", 13))}
 	return gain
 }
 
@@ -106,12 +100,10 @@ addLayer("r", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade("r", 12)) {
-            mult = mult.mul((player.r.points.pow(0.5)).add(1))
-        }
-        if (hasUpgrade("g", 12)) {
-            mult = mult.mul((player.g.points.pow(0.3)).add(1))
-        }
+        if (hasUpgrade("r", 12)) {mult = mult.mul(upgradeEffect("r", 12))}
+        if (hasUpgrade("g", 12)) {mult = mult.mul(upgradeEffect("g", 12))}
+        if (hasUpgrade("g", 13)) {mult = mult.mul(upgradeEffect("g", 13))}
+        if (hasUpgrade("b", 13)) {mult = mult.mul(upgradeEffect("b", 13))}
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -129,7 +121,7 @@ addLayer("r", {
 	},
     upgrades: {
         rows: 1,
-        cols: 2,
+        cols: 3,
         11: {
             title: "Colored",
             description: "Adds 1 to base color production.",
@@ -137,8 +129,15 @@ addLayer("r", {
         },
         12: {
             title: "Red Effect",
-            description: "Red points boost red point production",
+            description: "Red points boost red point production.",
             cost: new Decimal(3),
+            effect() {return player.r.points.pow(0.5)}
+        },
+        13: {
+            title: "Red Influence",
+            description: "Red points boost other point gain and color production at a reduced rate.",
+            cost: new Decimal(10),
+            effect() {return player.r.points.pow(0.25)}
         },
     },
     layerShown(){return true}
@@ -160,9 +159,8 @@ addLayer("g", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade("g", 12)) {
-            mult = mult.mul((player.g.points.pow(0.3)).add(1))
-        }
+        if (hasUpgrade("r", 13)) {mult = mult.mul(upgradeEffect("r", 13))}
+        if (hasUpgrade("b", 13)) {mult = mult.mul(upgradeEffect("b", 13))}
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -180,7 +178,7 @@ addLayer("g", {
 	},
     upgrades: {
         rows: 1,
-        cols: 2,
+        cols: 3,
         11: {
             title: "Colored",
             description: "Adds 1 to base color production.",
@@ -190,6 +188,13 @@ addLayer("g", {
             title: "Green Effect",
             description: "Green points boost gain of all other points.",
             cost: new Decimal(3),
+            effect() {return player.g.points.pow(0.3)}
+        },
+        13: {
+            title: "Green Influence",
+            description: "Green points boost red point gain and color production at a reduced rate.",
+            cost: new Decimal(10),
+            effect() {return player.g.points.pow(0.15)}
         },
     },
     layerShown(){return true}
@@ -211,9 +216,9 @@ addLayer("b", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade("g", 12)) {
-            mult = mult.mul((player.g.points.pow(0.3)).add(1))
-        }
+        if (hasUpgrade("g", 12)) {mult = mult.mul(upgradeEffect("g", 12))}
+        if (hasUpgrade("r", 13)) {mult = mult.mul(upgradeEffect("r", 13))}
+        if (hasUpgrade("g", 13)) {mult = mult.mul(upgradeEffect("g", 13))}
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -231,7 +236,7 @@ addLayer("b", {
 	},
     upgrades: {
         rows: 1,
-        cols: 2,
+        cols: 3,
         11: {
             title: "Colored",
             description: "Adds 1 to base color production.",
@@ -241,6 +246,13 @@ addLayer("b", {
             title: "Blue Effect",
             description: "Blue points boost color production",
             cost: new Decimal(3),
+            effect() {return player.b.points.pow(0.5)}
+        },
+        13: {
+            title: "Blue Influence",
+            description: "Blue points boost red point gain and other point gain at a reduced rate.",
+            cost: new Decimal(10),
+            effect() {return player.b.points.pow(0.25)}
         },
     },
     layerShown(){return true}
